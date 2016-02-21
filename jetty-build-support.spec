@@ -4,7 +4,7 @@
 
 Name:           %{?scl_prefix}%{pkg_name}
 Version:        1.1
-Release:        9.9%{?dist}
+Release:        9.10%{?dist}
 Summary:        Jetty build support files
 # licensing bug upstream
 # https://bugs.eclipse.org/bugs/show_bug.cgi?id=362646
@@ -15,8 +15,8 @@ Source0:        http://git.eclipse.org/c/jetty/org.eclipse.jetty.toolchain.git/s
 BuildArch:      noarch
 
 BuildRequires:  %{?scl_prefix_java_common}maven-local
-BuildRequires:  maven30-maven-source-plugin
-BuildRequires:  maven30-jetty-toolchain
+BuildRequires:  %{?scl_prefix}maven-source-plugin
+BuildRequires:  %{?scl_prefix}jetty-toolchain
 
 %description
 Build Support for Jetty. Contains enforcer rules, PMD rulesets, etc.
@@ -29,21 +29,21 @@ Summary:        API documentation for %{pkg_name}
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 pushd %{pkg_name}
 %mvn_file : %{pkg_name}
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 pushd %{pkg_name}
 %mvn_build
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 pushd %{pkg_name}
 %mvn_install
@@ -56,6 +56,9 @@ pushd %{pkg_name}
 %doc jetty-distribution-remote-resources/src/main/resources/*
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 1.1-9.10
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 1.1-9.9
 - maven33 rebuild
 
